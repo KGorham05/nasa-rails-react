@@ -1,10 +1,12 @@
-require 'dotenv-rails'
 require 'faraday'
-
+# Read up about rails credentials as a way of storing env variables
 class Api::V1::PicturesController < ApplicationController
   def index
-    p "https://api.nasa.gov/planetary/apod?&api_key=#{ENV['NASA_API']}"
-    picture = Faraday.get "https://api.nasa.gov/planetary/apod?&api_key=#{ENV['NASA_API']}"
+    # Using dotenv-rails gem to store api key as environment variable
+    # picture = Faraday.get "https://api.nasa.gov/planetary/apod?&api_key=#{ENV['NASA_API']}"
+
+    # Using Rails Credentials to store api key
+    picture = Faraday.get "https://api.nasa.gov/planetary/apod?&api_key=#{Rails.application.credentials.NASA_API!}"
 
     # picture = Picture.all.order(created_at: :desc)
     render json: picture
