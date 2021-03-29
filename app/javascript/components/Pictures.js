@@ -1,32 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { apodData } from "../utils"
 
 class Pictures extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      picture: "",
+      picture: null,
     };
   }
 
-  // Move this api call to a util folder that I import and use
   render() {
-    const handleClick = () => {
-      console.log("Clicked me!");
-      const url = "/api/v1/pictures/index";
-      fetch(url)
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error("Network response was not ok.");
-        })
-        .then((response) =>
-          this.setState({ picture: JSON.parse(response.body) }, () => {
-            console.log(this.state.picture);
-          })
-        )
-        .catch(() => this.props.history.push("/"));
+
+    const handleClick = async () => {
+      const response = await apodData().catch(() => this.props.history.push("/"));
+      this.setState({ picture: JSON.parse(response.body) }, () => {
+        console.log(this.state.picture);
+      })
     };
 
     return (
@@ -61,7 +51,7 @@ class Pictures extends React.Component {
             <div className="container-fluid px-0">
               <div className="row">
                 <div className="col-12">
-                  <img src={this.state.picture.hdurl} className="img-fluid" />
+                  <img src={this.state.picture.hdurl} className="img-fluid" alt="Astronomy picture of the day"/>
                 </div>
               </div>
             </div>
