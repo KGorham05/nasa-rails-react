@@ -6,17 +6,22 @@ class Pictures extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      picture: null,
+      picture: "",
     };
   }
 
   render() {
 
     const handleClick = async () => {
-      const response = await apodData().catch(() => this.props.history.push("/"));
-      this.setState({ picture: JSON.parse(response.body) }, () => {
-        console.log(this.state.picture);
-      })
+      try {
+        const response = await apodData();
+        this.setState({ picture: JSON.parse(response.body) }, () => {
+          console.log(this.state.picture);
+        })
+      }
+      catch {
+        this.props.history.push("/")
+      }
     };
 
     return (
