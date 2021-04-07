@@ -6,7 +6,7 @@ class Pictures extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      picture: "",
+      picture: false,
     };
   }
 
@@ -23,6 +23,8 @@ class Pictures extends React.Component {
         this.props.history.push("/")
       }
     };
+
+    const formatCopyright = (copyright) => copyright ? `by ${copyright}` : "";
 
     return (
       <>
@@ -43,7 +45,7 @@ class Pictures extends React.Component {
               <div className="row">
                 <div className="col-12">
                   <h1 className="pl-5">
-                    {this.state.picture.title} by {this.state.picture.copyright}
+                    {this.state.picture.title} {formatCopyright(this.state.picture.copyright)}
                   </h1>
                 </div>
               </div>
